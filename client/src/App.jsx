@@ -10,8 +10,7 @@ function App() {
   return (
     <>  
       <h1>Pingify</h1>
-      <span><img src={favicon} alt="" srcset="" width={40}/></span>
-            <span><img src={image} alt="" srcset="" width={40}/></span>
+      <span><img src={image} alt="" srcset="" width={40}/></span>
 
       <Routes>
         <Route path='/' element={<HomePage/>}/>

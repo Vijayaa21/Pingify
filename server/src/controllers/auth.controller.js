@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
     
@@ -73,3 +74,55 @@ export const logout = async (req, res) => {
     }
    
 }
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullName, profilePic } = req.body;
+    const userId = req.user._id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: User not found" });
+    }
+
+    if (!fullName) {
+      return res.status(400).json({ message: "Full Name is required" });
+    }
+
+    const existingUser = await User.findOne({ fullName });
+    if (existingUser && existingUser._id.toString() !== userId.toString()) {
+      return res.status(400).json({ message: "Full Name already exists" });
+    }
+
+    let updatedFields = { fullName };
+
+    if (profilePic) {
+  console.log("ProfilePic received:", profilePic.slice(0, 50)); 
+
+  try {
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    console.log("Cloudinary upload response:", uploadResponse);
+    updatedFields.profilePic = uploadResponse.secure_url;
+  } catch (err) {
+    console.error("Cloudinary upload failed:", err.message);
+    return res.status(400).json({ message: "Invalid profile picture input" });
+  }
+}
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updatedFields,
+      { new: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error in update profile:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
