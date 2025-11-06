@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 dotenv.config();
