@@ -4,7 +4,7 @@ function SignUpPage() {
   return (
     <div>
         
-      Singnup Page
+      Signup Page
     </div>
   )
 }
