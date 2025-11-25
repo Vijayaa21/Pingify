@@ -20,6 +20,7 @@ Pingify/
 │   │   ├── components/  # React components (ChatContainer, Sidebar, RightPanel)
 │   │   ├── lib/         # Utility libraries (db.js)
 │   │   ├── pages/       # Page components (HomePage, LoginPage, ProfilePage)
+│   │   ├── store/       # This contains state management for Zustand
 │   │   ├── App.jsx      # Main app component
 │   │   ├── main.jsx     # Entry point
 │   │   └── index.css    # Global styles
@@ -32,6 +33,7 @@ Pingify/
 │   │   ├── middleware/  # Express middleware
 │   │   ├── models/      # Database models
 │   │   └── routes/      # API routes (auth.route.js)
+│   │   ├── emails/      # handle sending email to new user
 │   └── package.json     # Backend dependencies
 └── README.md      # Project documentation
 ```
