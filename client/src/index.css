@@ -3,9 +3,120 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@property --border-angle {
+  inherits: false;
+  initial-value: 0deg;
+  syntax: "<angle>";
+}
+
+
 *{
   font-family: "Inter", sans-serif;
 }
 ::-webkit-scrollbar{
   display: none;
+}
+
+
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+.animate-ripple {
+  animation: ripple 0.8s ease-out;
+}
+
+
+/* Shine Animation */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+}
+
+.shine-effect:hover::after {
+  animation: shineMove 0.9s ease-in-out;
+}
+
+@keyframes shineMove {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+
+
+/* Mirror Line Shine Effect */
+.mirror-line {
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .mirror-line::after,
+  .mirror-line::before {
+    display: none !important;
+  }
+}
+
+.mirror-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+  filter: blur(1px);
+}
+
+@keyframes shineMove {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+  }
+}
+
+/* Animated shiny highlight */
+.mirror-line::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 40px;
+  background: rgba(255,255,255,0.9);
+  filter: blur(4px);
+  animation: shineMove 5s infinite ease-in-out;
+  opacity: 0;
 }
