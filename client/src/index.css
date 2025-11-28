@@ -106,3 +106,15 @@
   animation: shineMove 5s infinite ease-in-out;
   opacity: 0;
 }
+
+
+
+@keyframes pulseScale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .animate-pulse-scale {
+      animation: pulseScale 2s ease-in-out infinite;
+    }
