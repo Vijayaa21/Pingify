@@ -167,22 +167,22 @@ function SignUpPage() {
               {/* Desktop / Tablet View */}
               <p className="hidden md:block text-center text-sm text-white/70">
                 Already have an account?{" "}
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="text-purple-400 font-medium hover:underline hover:text-purple-300 transition"
                 >
                   Login
-                </a>
+                </Link>
               </p>
 
               {/* Mobile View — Full Width Login Button */}
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="md:hidden btn w-full mt-2 bg-transparent border border-white/40 
                           text-white hover:bg-white/10 transition-all"
               >
                 Login
-              </a>
+              </Link>
             </div>
 
             </form>
