@@ -46,7 +46,7 @@ function SignUpPage() {
 
 
         {/* LEFT SECTION */}
-        <div className="hidden md:flex flex flex-col items-center justify-center text-center p-6 md:p-10 transition-transform duration-500 hover:scale-105">
+        <div className="hidden md:flex flex flex-col items-center justify-center text-center p-6 md:p-10 transition-transform duration-500 hover:scale-80">
           <div className="shine-effect">
             <img src="./favicon.svg" alt="Logo" className="w-36 md:w-48 mb-4" />
           </div>
