@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore"
 import { Link } from "react-router";
+import { MessageCircleIcon, MailIcon, LoaderIcon, LockIcon } from "lucide-react";
 
 
 function SignUpPage() {
