@@ -1,11 +1,13 @@
 import { useState, useRef } from "react";
-import { LogOutIcon, VolumeOffIcon, Volume2Icon } from "lucide-react";
+import { LogOut, Volume2, VolumeOff } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
+import { useNavigate } from "react-router-dom";
 
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
 function ProfileHeader() {
+  const navigate = useNavigate();
   const { logout, authUser, updateProfile } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
   const [selectedImg, setSelectedImg] = useState(null);
@@ -25,75 +27,74 @@ function ProfileHeader() {
       await updateProfile({ profilePic: base64Image });
     };
   };
-  
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const handleSoundToggle = () => {
+    mouseClickSound.currentTime = 0;
+    mouseClickSound.play().catch(() => {});
+    toggleSound();
+  };
+
   return (
-    <div className="p-6 border-b border-slate-700/50">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {/* AVATAR */}
-          <div className="avatar online">
-            <button
-              className="size-14 rounded-full overflow-hidden relative group"
-              onClick={() => fileInputRef.current.click()}
-            >
-              <img
-                src={selectedImg || authUser.profilePic || "/avatar.png"}
-                alt="User image"
-                className="size-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                <span className="text-white text-xs">Change</span>
-              </div>
-            </button>
-
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              className="hidden"
+    <div className="px-6 py-4 border-b border-white/10 bg-[#1A2639] backdrop-blur-md flex items-center justify-between">
+      {/* Avatar + Info */}
+      <div className="flex items-center gap-3">
+        <div className="relative">
+          <button
+            className="w-12 h-12 rounded-full overflow-hidden relative group border-2 border-white/10 shadow-sm"
+            onClick={() => fileInputRef.current.click()}
+          >
+            <img
+              src={selectedImg || authUser.profilePic || "/avatar.png"}
+              alt="Profile"
+              className="w-full h-full object-cover"
             />
-          </div>
-
-          {/* USERNAME & ONLINE TEXT */}
-          <div>
-            <h3 className="text-slate-200 font-medium text-base max-w-[180px] truncate">
-              {authUser.fullName}
-            </h3>
-
-            <p className="text-slate-400 text-xs">Online</p>
-          </div>
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+              <span className="text-white text-xs font-medium">Change</span>
+            </div>
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+          <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full ring-2 ring-gray-900 bg-green-400" />
         </div>
 
-        {/* BUTTONS */}
-        <div className="flex gap-4 items-center">
-          {/* LOGOUT BTN */}
-          <button
-            className="text-slate-400 hover:text-slate-200 transition-colors"
-            onClick={logout}
-          >
-            <LogOutIcon className="size-5" />
-          </button>
-
-          {/* SOUND TOGGLE BTN */}
-          <button
-            className="text-slate-400 hover:text-slate-200 transition-colors"
-            onClick={() => {
-              // play click sound before toggling
-              mouseClickSound.currentTime = 0; // reset to start
-              mouseClickSound.play().catch((error) => console.log("Audio play failed:", error));
-              toggleSound();
-            }}
-          >
-            {isSoundEnabled ? (
-              <Volume2Icon className="size-5" />
-            ) : (
-              <VolumeOffIcon className="size-5" />
-            )}
-          </button>
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold text-white truncate max-w-[150px]">
+            {authUser.fullName}
+          </span>
+          <span className="text-xs text-slate-400">Online</span>
         </div>
+      </div>
+
+      {/* Actions: Logout + Sound */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={handleLogout}
+          className="p-2 text-slate-400 hover:text-white hover:bg-red-500/20 rounded-lg transition-colors"
+          title="Logout"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
+
+        <button
+          onClick={handleSoundToggle}
+          className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          title={isSoundEnabled ? "Mute Sounds" : "Enable Sounds"}
+        >
+          {isSoundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeOff className="w-4 h-4" />}
+        </button>
       </div>
     </div>
   );
 }
+
 export default ProfileHeader;

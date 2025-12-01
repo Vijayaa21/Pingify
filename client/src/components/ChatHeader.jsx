@@ -1,43 +1,72 @@
-import { XIcon } from "lucide-react";
+import { Menu, Phone, Video, Users, MoreVertical } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
-import { useEffect } from "react";
+import { useAuthStore } from "../store/useAuthStore";
 
 function ChatHeader() {
-  const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedUser, toggleSidebar, closeSidebar } = useChatStore();
+  const { onlineUsers } = useAuthStore();
 
-  useEffect(() => {
-    const handleEscKey = (event) => {
-      if (event.key === "Escape") setSelectedUser(null);
-    };
+  const isOnline =
+    selectedUser?._id && Array.isArray(onlineUsers)
+      ? onlineUsers.includes(selectedUser._id)
+      : false;
 
-    window.addEventListener("keydown", handleEscKey);
-
-    // cleanup function
-    return () => window.removeEventListener("keydown", handleEscKey);
-  }, [setSelectedUser]);
+  if (!selectedUser) return null;
 
   return (
-    <div
-      className="flex justify-between items-center bg-slate-800/50 border-b
-   border-slate-700/50 max-h-[84px] px-6 flex-1"
-    >
-      <div className="flex items-center space-x-3">
-        <div className="avatar online">
-          <div className="w-12 rounded-full">
-            <img src={selectedUser.profilePic || "/avatar.png"} alt={selectedUser.fullName} />
-          </div>
-        </div>
+    <div className="w-full h-16 px-4 flex items-center justify-between bg-gradient-to-r from-slate-900 to-slate-800 border-b border-white/10">
+
+      {/* LEFT SECTION */}
+      <div className="flex items-center gap-4">
+        <button
+          className="text-white/80 hover:text-white"
+          onClick={toggleSidebar}
+        >
+          <Menu size={24} />
+        </button>
+
+        <img
+          src={selectedUser.profilePic || "/default-avatar.png"}
+          alt="avatar"
+          className="w-10 h-10 rounded-full object-cover"
+        />
 
         <div>
-          <h3 className="text-slate-200 font-medium">{selectedUser.fullName}</h3>
-          <p className="text-slate-400 text-sm">Online</p>
+          <h2 className="text-white font-semibold text-lg">
+            {selectedUser.fullName}
+          </h2>
+
+          <div className="flex items-center gap-1">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isOnline ? "bg-green-500" : "bg-gray-500"
+              }`}
+            ></span>
+            <p className="text-sm text-white/70">
+              {isOnline ? "Online" : "Offline"}
+            </p>
+          </div>
         </div>
       </div>
 
-      <button onClick={() => setSelectedUser(null)}>
-        <XIcon className="w-5 h-5 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer" />
-      </button>
+      {/* RIGHT SECTION */}
+      <div className="flex items-center gap-5 text-white/80">
+        <Phone size={22} className="hover:text-white cursor-pointer" />
+        <Video size={22} className="hover:text-white cursor-pointer" />
+
+        <div className="h-6 w-px bg-white/20"></div>
+
+        <button
+          className="w-9 h-9 rounded-full bg-emerald-600/30 flex items-center justify-center hover:bg-emerald-600/40"
+          onClick={closeSidebar}
+        >
+          <Users size={20} className="text-emerald-300" />
+        </button>
+
+        <MoreVertical size={22} className="hover:text-white cursor-pointer" />
+      </div>
     </div>
   );
 }
+
 export default ChatHeader;

@@ -1,28 +1,33 @@
+import { useState } from "react";
+import { UserPlus } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 
-function ActiveTabSwitch() {
+export default function AddContactToggleButton() {
   const { activeTab, setActiveTab } = useChatStore();
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const handleToggle = () => {
+    if (!isContactOpen) {
+      // First click: show contacts
+      setActiveTab("contacts");
+    } else {
+      // Second click: back to chats
+      setActiveTab("chats");
+    }
+    setIsContactOpen(!isContactOpen);
+  };
 
   return (
-    <div className="tabs tabs-boxed bg-transparent p-2 m-2">
-      <button
-        onClick={() => setActiveTab("chats")}
-        className={`tab ${
-          activeTab === "chats" ? "bg-cyan-500/20 text-cyan-400" : "text-slate-400"
+    <button
+      onClick={handleToggle}
+      className={`p-2 rounded-full transition-all border border-transparent
+        ${isContactOpen 
+          ? 'bg-teal-500/20 text-teal-400 border-teal-500/30'
+          : 'bg-white/5 hover:bg-teal-500/20 hover:text-teal-400'
         }`}
-      >
-        Chats
-      </button>
-
-      <button
-        onClick={() => setActiveTab("contacts")}
-        className={`tab ${
-          activeTab === "contacts" ? "bg-cyan-500/20 text-cyan-400" : "text-slate-400"
-        }`}
-      >
-        Contacts
-      </button>
-    </div>
+      title="Add Contact"
+    >
+      <UserPlus className="w-4 h-4" />
+    </button>
   );
 }
-export default ActiveTabSwitch;
