@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { LogOut, Search, Settings, Pin } from "lucide-react";
+import { Search, Pin } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 import ChatsList from "./ChatsList";
 import ContactList from "./ContactList";
 import ActiveTabSwitch from "./ActiveTabSwitch";
-import { useAuthStore } from "../store/useAuthStore";
 import ProfileHeader from "./ProfileHeader";
 
 export default function AppSidebar() {
@@ -19,7 +17,7 @@ export default function AppSidebar() {
         <div className="flex items-center gap-3">
           {/* App Logo */}
           <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg ">
-            <img src="/favicon.svg" />
+            <img src="/favicon.svg" alt="Pingify logo" />
           </div>
 
           {/* Title */}

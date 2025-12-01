@@ -51,9 +51,12 @@ function ChatHeader() {
 
       {/* RIGHT SECTION */}
       <div className="flex items-center gap-5 text-white/80">
-        <Phone size={22} className="hover:text-white cursor-pointer" />
-        <Video size={22} className="hover:text-white cursor-pointer" />
-
+        <button className="hover:text-white" aria-label="Voice call">
+          <Phone size={22} />
+        </button>
+        <button className="hover:text-white" aria-label="Video call">
+          <Video size={22} />
+        </button>
         <div className="h-6 w-px bg-white/20"></div>
 
         <button
@@ -63,8 +66,9 @@ function ChatHeader() {
           <Users size={20} className="text-emerald-300" />
         </button>
 
-        <MoreVertical size={22} className="hover:text-white cursor-pointer" />
-      </div>
+        <button className="hover:text-white" aria-label="More options">
+          <MoreVertical size={22} />
+        </button>      </div>
     </div>
   );
 }

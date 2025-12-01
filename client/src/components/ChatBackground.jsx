@@ -1,7 +1,4 @@
-// ChatBackground.jsx
-import React from "react";
-
-export default function ChatBackground({ children }) {
+export default function ChatBackground() {
   return (
   <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
     {/* CSS Pattern for Space Doodles */}
